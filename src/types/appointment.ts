@@ -2,7 +2,7 @@ export type AppointmentMode = 'Video Call' | 'In-person' | 'video call'
 
 export type AppointmentBadge = 'Follow Up' | 'Consultation'
 
-export type OrganIcon = 'heart' | 'joint' | 'kidney' | 'lungs'
+export type OrganIcon = string
 
 export type AppointmentStatus = 'upcoming' | 'past' | 'cancelled'
 

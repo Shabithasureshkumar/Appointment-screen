@@ -30,10 +30,7 @@ export const appointments: Appointment[] = [
       '2450 Wellness Avenue, Suite 320, Houston, Texas 77002, United States',
     doctorImage:
       'https://randomuser.me/api/portraits/women/65.jpg',
-
-    // ❤️ Heart image
     organIcon: heart,
-
     symptoms: SYMPTOMS,
     status: 'upcoming',
   },
@@ -55,10 +52,7 @@ export const appointments: Appointment[] = [
       '2450 Wellness Avenue, Suite 320, Houston, Texas 77002, United States',
     doctorImage:
       'https://randomuser.me/api/portraits/men/32.jpg',
-
-    // 🦴 Orthopedic image
     organIcon: ortho,
-
     symptoms: SYMPTOMS,
     status: 'upcoming',
   },
@@ -80,10 +74,7 @@ export const appointments: Appointment[] = [
       '2450 Wellness Avenue, Suite 320, Houston, Texas 77002, United States',
     doctorImage:
       'https://randomuser.me/api/portraits/men/76.jpg',
-
-    // 🩺 Gastro / kidney image
     organIcon: gesto,
-
     symptoms: SYMPTOMS,
     status: 'upcoming',
   },
@@ -105,10 +96,7 @@ export const appointments: Appointment[] = [
       '2450 Wellness Avenue, Suite 320, Houston, Texas 77002, United States',
     doctorImage:
       'https://randomuser.me/api/portraits/men/50.jpg',
-
-    // 🫁 Lungs image
     organIcon: pulmo,
-
     symptoms: SYMPTOMS,
     status: 'upcoming',
   },
