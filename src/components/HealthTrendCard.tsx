@@ -1,0 +1,60 @@
+export default function HealthTrendCard() {
+  return (
+    <div
+      className="
+        flex
+        h-full
+        min-h-0
+        w-full
+        flex-col
+        justify-between
+        rounded-[20px]
+        border
+        border-[#ECE9FF]
+        bg-white
+        p-5
+        shadow-[0_8px_25px_rgba(70,50,120,0.06)]
+      "
+    >
+      <div>
+        <h3 className="font-sora text-[13px] font-medium text-[#454558]">
+          Health Trend
+        </h3>
+
+        <div className="mt-3 flex items-end gap-2">
+          <span
+            className="
+              font-manrope
+              text-[24px]
+              font-extrabold
+              leading-none
+              text-[#6335F5]
+            "
+          >
+            +8%
+          </span>
+
+          <span
+            className="
+              mb-[1px]
+              font-sora
+              text-[11px]
+              text-[#9997A8]
+            "
+          >
+            Better than Last Month
+          </span>
+        </div>
+      </div>
+
+      <div className="flex items-end justify-end gap-[3px]">
+        <span className="h-[8px] w-[6px] rounded-t-[3px] bg-[#DCCEFF]" />
+        <span className="h-[12px] w-[6px] rounded-t-[3px] bg-[#D1BFFF]" />
+        <span className="h-[17px] w-[6px] rounded-t-[3px] bg-[#C3ACFF]" />
+        <span className="h-[23px] w-[6px] rounded-t-[3px] bg-[#AD8CFF]" />
+        <span className="h-[29px] w-[6px] rounded-t-[3px] bg-[#956BFF]" />
+        <span className="h-[35px] w-[6px] rounded-t-[3px] bg-[#7441F5]" />
+      </div>
+    </div>
+  )
+}

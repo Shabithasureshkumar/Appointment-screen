@@ -1,0 +1,149 @@
+/* stylelint-disable at-rule-no-unknown */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* stylelint-enable at-rule-no-unknown */
+
+html {
+  overflow-x: hidden;
+  background: #f7f9fa;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  overflow-x: hidden;
+
+  font-family: 'Sora', sans-serif;
+
+  background:
+    radial-gradient(
+      circle at 8% 18%,
+      rgba(124, 77, 255, 0.025),
+      transparent 28%
+    ),
+    #f7f9fa;
+
+  color: #25253a;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ------------------------------------------------ */
+/* Custom scrollbar */
+/* ------------------------------------------------ */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: #d8d2ff;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a98cff;
+}
+
+/* ------------------------------------------------ */
+/* Soft shadows */
+/* ------------------------------------------------ */
+
+.shadow-soft {
+  box-shadow:
+    0 8px 30px rgba(74, 55, 130, 0.055),
+    0 2px 8px rgba(74, 55, 130, 0.025);
+}
+
+/* ------------------------------------------------ */
+/* Appointment card */
+/* ------------------------------------------------ */
+
+.appointment-card {
+  border: 1px solid #ece9ff;
+  background: #ffffff;
+
+  box-shadow:
+    0 8px 28px rgba(65, 49, 120, 0.045),
+    0 1px 3px rgba(65, 49, 120, 0.025);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.appointment-card:hover {
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 14px 36px rgba(65, 49, 120, 0.07),
+    0 2px 6px rgba(65, 49, 120, 0.035);
+}
+
+/* ------------------------------------------------ */
+/* Purple gradient */
+/* ------------------------------------------------ */
+
+.purple-gradient {
+  background: linear-gradient(
+    135deg,
+    #8f61ff 0%,
+    #7040ff 52%,
+    #5b20ff 100%
+  );
+}
+
+.purple-button {
+  background: linear-gradient(
+    135deg,
+    #6530ff 0%,
+    #8b5cff 100%
+  );
+
+  box-shadow:
+    0 8px 18px rgba(103, 52, 255, 0.18);
+}
+
+/* ------------------------------------------------ */
+/* Responsive appointment layout */
+/* ------------------------------------------------ */
+
+@media (min-width: 1440px) {
+  .appointment-card {
+    min-height: 128px;
+  }
+}
+
+@media (max-width: 1280px) {
+  .appointment-card {
+    min-height: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .appointment-card {
+    border-radius: 20px;
+  }
+}
