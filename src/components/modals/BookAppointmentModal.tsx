@@ -3,7 +3,7 @@ import { CalendarPlus } from 'lucide-react'
 import Modal from '../ui/Modal'
 import Button from '../ui/Button'
 import { DOCTORS } from '../../data/doctors'
-import { buildScheduleFields } from '../../utils/scheduling'
+import { buildScheduleFields, toDateTimeLocalValue } from '../../utils/scheduling'
 import type { BookAppointmentInput } from '../../hooks/useAppointments'
 import type { AppointmentMode } from '../../types/appointment'
 
@@ -17,7 +17,7 @@ function defaultDateTimeValue() {
   const date = new Date()
   date.setDate(date.getDate() + 1)
   date.setHours(10, 0, 0, 0)
-  return date.toISOString().slice(0, 16)
+  return toDateTimeLocalValue(date)
 }
 
 export default function BookAppointmentModal({ isOpen, onClose, onBook }: BookAppointmentModalProps) {
@@ -35,7 +35,7 @@ export default function BookAppointmentModal({ isOpen, onClose, onBook }: BookAp
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    const schedule = buildScheduleFields(dateTime)
+    const fields = buildScheduleFields(dateTime)
     onBook({
       doctorName: selectedDoctor.name,
       specialization: selectedDoctor.specialization,
@@ -45,7 +45,7 @@ export default function BookAppointmentModal({ isOpen, onClose, onBook }: BookAp
       mode,
       rating: selectedDoctor.rating,
       reviews: selectedDoctor.reviews,
-      ...schedule,
+      ...fields,
     })
     onClose()
   }
@@ -79,7 +79,7 @@ export default function BookAppointmentModal({ isOpen, onClose, onBook }: BookAp
             type="datetime-local"
             required
             value={dateTime}
-            min={new Date().toISOString().slice(0, 16)}
+            min={toDateTimeLocalValue(new Date())}
             onChange={(event) => setDateTime(event.target.value)}
             className="rounded-xl border border-gray-200 px-3 py-2.5 font-sora text-sm text-gray-800 focus:border-brand-700 focus:outline-none"
           />

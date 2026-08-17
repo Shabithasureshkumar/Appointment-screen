@@ -15,7 +15,12 @@ export interface BookAppointmentInput extends ScheduleFields {
   reviews: number
 }
 
-let nextAppointmentId = seedAppointments.length + 1
+function createAppointmentId(): string {
+  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+    return crypto.randomUUID()
+  }
+  return `apt-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
+}
 
 export function useAppointments() {
   const [appointments, setAppointments] = useState<Appointment[]>(seedAppointments)
@@ -33,11 +38,11 @@ export function useAppointments() {
   }, [])
 
   /** Reschedules an appointment to a new date/time. Also reactivates a cancelled appointment. */
-  const rescheduleAppointment = useCallback((id: string, schedule: ScheduleFields) => {
+  const rescheduleAppointment = useCallback((id: string, fields: ScheduleFields) => {
     setAppointments((prev) =>
       prev.map((appointment) =>
         appointment.id === id
-          ? { ...appointment, ...schedule, status: 'upcoming' }
+          ? { ...appointment, ...fields, status: 'upcoming' }
           : appointment,
       ),
     )
@@ -46,9 +51,8 @@ export function useAppointments() {
 
   const bookAppointment = useCallback((input: BookAppointmentInput) => {
     const appointment: Appointment = {
-      id: `apt-${nextAppointmentId++}`,
-      day: input.day,
-      date: input.date,
+      id: createAppointmentId(),
+      schedule: input.schedule,
       doctorName: input.doctorName,
       specialization: input.specialization,
       experience: input.experience,
@@ -57,7 +61,6 @@ export function useAppointments() {
       mode: input.mode,
       appointmentType: 'Consultation',
       startsInSeconds: input.startsInSeconds,
-      dateTimeLabel: input.dateTimeLabel,
       address: CLINIC_ADDRESS,
       doctorImage: input.doctorImage,
       organIcon: input.organIcon,

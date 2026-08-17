@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import TopNavigation from './components/TopNavigation'
 import AppointmentHeader from './components/AppointmentHeader'
 import AppointmentSummaryCards from './components/AppointmentSummaryCards'
@@ -10,6 +10,7 @@ import SymptomCheckerModal from './components/modals/SymptomCheckerModal'
 import RescheduleModal from './components/modals/RescheduleModal'
 import JoinConsultationModal from './components/modals/JoinConsultationModal'
 import { useAppointments } from './hooks/useAppointments'
+import { formatDateTimeLabel } from './utils/scheduling'
 import type { Appointment, AppointmentStatus } from './types/appointment'
 
 const EMPTY_STATE_COPY: Record<AppointmentStatus, { title: string; subtitle: string }> = {
@@ -27,8 +28,14 @@ const EMPTY_STATE_COPY: Record<AppointmentStatus, { title: string; subtitle: str
   },
 }
 
+const NO_MATCH_COPY = {
+  title: 'No matching appointments',
+  subtitle: 'Try a different doctor name or specialty.',
+}
+
 function App() {
   const {
+    appointments,
     visibleAppointments,
     activeFilter,
     setActiveFilter,
@@ -41,14 +48,38 @@ function App() {
   const [isSymptomCheckerOpen, setSymptomCheckerOpen] = useState(false)
   const [rescheduleTarget, setRescheduleTarget] = useState<Appointment | null>(null)
   const [joinTarget, setJoinTarget] = useState<Appointment | null>(null)
+  const [searchQuery, setSearchQuery] = useState('')
 
-  const emptyState = EMPTY_STATE_COPY[activeFilter]
+  const searchedAppointments = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase()
+    if (!query) return visibleAppointments
+    return visibleAppointments.filter(
+      (appointment) =>
+        appointment.doctorName.toLowerCase().includes(query) ||
+        appointment.specialization.toLowerCase().includes(query),
+    )
+  }, [visibleAppointments, searchQuery])
+
+  const notifications = useMemo(
+    () =>
+      appointments
+        .filter((appointment) => appointment.status === 'upcoming')
+        .map((appointment) => ({
+          id: appointment.id,
+          doctorName: appointment.doctorName,
+          label: formatDateTimeLabel(appointment.schedule),
+        })),
+    [appointments],
+  )
+
+  const emptyState =
+    searchQuery.trim() && searchedAppointments.length === 0 ? NO_MATCH_COPY : EMPTY_STATE_COPY[activeFilter]
 
   return (
     <main className="min-h-screen w-full overflow-x-hidden bg-[#F7F9FA]">
       <div className="mx-auto flex w-full max-w-[1580px] flex-col gap-6 px-4 py-5 sm:px-6 lg:px-8 xl:px-10">
         {/* Top Navigation */}
-        <TopNavigation />
+        <TopNavigation searchQuery={searchQuery} onSearchChange={setSearchQuery} notifications={notifications} />
 
         {/* Hero + Summary Cards */}
         <section className="grid w-full grid-cols-1 gap-5 lg:grid-cols-[0.95fr_1.55fr]">
@@ -73,9 +104,9 @@ function App() {
 
         {/* Appointment Timeline */}
         <section className="w-full">
-          {visibleAppointments.length > 0 ? (
+          {searchedAppointments.length > 0 ? (
             <AppointmentTimeline
-              appointments={visibleAppointments}
+              appointments={searchedAppointments}
               onCancel={cancelAppointment}
               onReschedule={setRescheduleTarget}
               onJoinNow={setJoinTarget}

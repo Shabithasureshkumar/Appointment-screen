@@ -2,7 +2,7 @@ import { useState, type FormEvent } from 'react'
 import { CalendarClock } from 'lucide-react'
 import Modal from '../ui/Modal'
 import Button from '../ui/Button'
-import { buildScheduleFields, type ScheduleFields } from '../../utils/scheduling'
+import { buildScheduleFields, toDateTimeLocalValue, type ScheduleFields } from '../../utils/scheduling'
 import type { Appointment } from '../../types/appointment'
 
 interface RescheduleModalProps {
@@ -16,7 +16,7 @@ function defaultDateTimeValue() {
   const date = new Date()
   date.setDate(date.getDate() + 1)
   date.setHours(10, 0, 0, 0)
-  return date.toISOString().slice(0, 16)
+  return toDateTimeLocalValue(date)
 }
 
 export default function RescheduleModal({ isOpen, onClose, appointment, onConfirm }: RescheduleModalProps) {
@@ -49,7 +49,7 @@ export default function RescheduleModal({ isOpen, onClose, appointment, onConfir
             type="datetime-local"
             required
             value={dateTime}
-            min={new Date().toISOString().slice(0, 16)}
+            min={toDateTimeLocalValue(new Date())}
             onChange={(event) => setDateTime(event.target.value)}
             className="rounded-xl border border-gray-200 px-3 py-2.5 font-sora text-sm text-gray-800 focus:border-brand-700 focus:outline-none"
           />

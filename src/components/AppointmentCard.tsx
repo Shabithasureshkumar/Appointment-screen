@@ -1,4 +1,5 @@
 import type { Appointment } from '../types/appointment'
+import { formatDateTimeLabel } from '../utils/scheduling'
 import DoctorInfo from './DoctorInfo'
 import CountdownTimer from './CountdownTimer'
 import ReportedSymptoms from './ReportedSymptoms'
@@ -45,7 +46,10 @@ export default function AppointmentCard({
 
         {hasCountdown && (
           <div className="flex min-w-0 justify-center md:justify-start lg:basis-[140px] lg:grow-0 lg:shrink-0">
-            <CountdownTimer initialSeconds={appointment.startsInSeconds as number} dateTimeLabel={appointment.dateTimeLabel} />
+            <CountdownTimer
+              initialSeconds={appointment.startsInSeconds as number}
+              dateTimeLabel={formatDateTimeLabel(appointment.schedule)}
+            />
           </div>
         )}
 

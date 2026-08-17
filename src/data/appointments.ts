@@ -13,8 +13,7 @@ const SYMPTOMS = [
 export const appointments: Appointment[] = [
   {
     id: 'apt-1',
-    day: 'MON',
-    date: '12',
+    schedule: { day: 'MON', date: '12', monthYear: 'May 2026', time: '09:30 AM', isToday: true },
     doctorName: sarah.name,
     specialization: sarah.specialization,
     experience: sarah.experience,
@@ -23,7 +22,6 @@ export const appointments: Appointment[] = [
     mode: 'Video Call',
     appointmentType: 'Follow Up',
     startsInSeconds: 45 * 60 + 27,
-    dateTimeLabel: 'Today, 12 May 2026, 09:30 AM',
     address: CLINIC_ADDRESS,
     doctorImage: sarah.image,
     organIcon: sarah.organIcon,
@@ -38,8 +36,7 @@ export const appointments: Appointment[] = [
 
   {
     id: 'apt-2',
-    day: 'MON',
-    date: '12',
+    schedule: { day: 'MON', date: '12', monthYear: 'May 2026', time: '01:30 PM', isToday: true },
     doctorName: james.name,
     specialization: james.specialization,
     experience: james.experience,
@@ -48,7 +45,6 @@ export const appointments: Appointment[] = [
     mode: 'In-person',
     appointmentType: 'Consultation',
     startsInSeconds: 4 * 3600 + 45 * 60 + 27,
-    dateTimeLabel: 'Today, 12 May 2026, 01:30 PM',
     address: CLINIC_ADDRESS,
     doctorImage: james.image,
     organIcon: james.organIcon,
@@ -63,8 +59,9 @@ export const appointments: Appointment[] = [
 
   {
     id: 'apt-3',
-    day: 'TUE',
-    date: '13',
+    // Previously hard-authored as "Today, 12 May 2026" — disagreed with its own
+    // TUE 13 timeline badge. Now both come from this one schedule object.
+    schedule: { day: 'TUE', date: '13', monthYear: 'May 2026', time: '09:30 AM', isToday: false },
     doctorName: daniel.name,
     specialization: daniel.specialization,
     experience: daniel.experience,
@@ -73,7 +70,6 @@ export const appointments: Appointment[] = [
     mode: 'Video Call',
     appointmentType: 'Consultation',
     startsInSeconds: 27,
-    dateTimeLabel: 'Today, 12 May 2026, 09:30 AM',
     address: CLINIC_ADDRESS,
     doctorImage: daniel.image,
     organIcon: daniel.organIcon,
@@ -88,8 +84,8 @@ export const appointments: Appointment[] = [
 
   {
     id: 'apt-4',
-    day: 'WED',
-    date: '14',
+    // Same fix as apt-3: was "Today, 12 May 2026" next to a WED 14 badge.
+    schedule: { day: 'WED', date: '14', monthYear: 'May 2026', time: '09:30 AM', isToday: false },
     doctorName: alexander.name,
     specialization: alexander.specialization,
     experience: alexander.experience,
@@ -98,7 +94,6 @@ export const appointments: Appointment[] = [
     mode: 'Video Call',
     appointmentType: 'Follow Up',
     startsInSeconds: 27,
-    dateTimeLabel: 'Today, 12 May 2026, 09:30 AM',
     address: CLINIC_ADDRESS,
     doctorImage: alexander.image,
     organIcon: alexander.organIcon,
@@ -113,8 +108,7 @@ export const appointments: Appointment[] = [
 
   {
     id: 'apt-5',
-    day: 'FRI',
-    date: '08',
+    schedule: { day: 'FRI', date: '08', monthYear: 'May 2026', time: '10:00 AM', isToday: false },
     doctorName: sarah.name,
     specialization: sarah.specialization,
     experience: sarah.experience,
@@ -122,7 +116,6 @@ export const appointments: Appointment[] = [
     reviews: sarah.reviews,
     mode: 'Video Call',
     appointmentType: 'Follow Up',
-    dateTimeLabel: 'Fri, 08 May 2026, 10:00 AM',
     address: CLINIC_ADDRESS,
     doctorImage: sarah.image,
     status: 'past',
