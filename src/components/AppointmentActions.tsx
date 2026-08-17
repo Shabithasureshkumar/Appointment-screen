@@ -1,4 +1,5 @@
 import { CalendarPlus, Sparkles } from 'lucide-react'
+import Button from './ui/Button'
 
 interface AppointmentActionsProps {
   onBookAppointment: () => void
@@ -8,20 +9,24 @@ interface AppointmentActionsProps {
 export default function AppointmentActions({ onBookAppointment, onSymptomChecker }: AppointmentActionsProps) {
   return (
     <div className="flex w-full items-center gap-3 sm:w-auto">
-      <button
+      <Button
+        variant="primary"
+        size="lg"
+        icon={<CalendarPlus className="h-4 w-4" />}
         onClick={onBookAppointment}
-        className="flex flex-1 items-center justify-center gap-2 rounded-full bg-brand-gradient-btn px-6 py-3 font-sora text-sm font-semibold text-white shadow-card transition-transform hover:scale-[1.02] active:scale-[0.98] sm:flex-none"
+        className="flex-1 sm:flex-none"
       >
-        <CalendarPlus className="h-4 w-4" />
         Book Appointment
-      </button>
-      <button
+      </Button>
+      <Button
+        variant="secondary"
+        size="lg"
+        icon={<Sparkles className="h-4 w-4" />}
         onClick={onSymptomChecker}
-        className="flex flex-1 items-center justify-center gap-2 rounded-full border border-brand-900 bg-white px-6 py-3 font-sora text-sm font-semibold text-brand-900 transition-colors hover:bg-brand-50 sm:flex-none"
+        className="flex-1 sm:flex-none"
       >
-        <Sparkles className="h-4 w-4" />
         AI Symptom Checker
-      </button>
+      </Button>
     </div>
   )
 }

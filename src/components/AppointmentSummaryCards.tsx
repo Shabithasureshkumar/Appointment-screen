@@ -10,11 +10,11 @@ export default function AppointmentSummaryCards() {
         w-full
         grid-cols-1
         gap-4
-        sm:grid-cols-3
-        sm:auto-rows-[174px]
+        sm:grid-cols-2
+        min-[900px]:grid-cols-3
       "
     >
-      <div className="h-full min-h-0 min-w-0">
+      <div className="min-h-0 min-w-0">
         <AppointmentSummaryCard
           icon={RefreshCcw}
           label="Upcoming"
@@ -24,7 +24,7 @@ export default function AppointmentSummaryCards() {
         />
       </div>
 
-      <div className="h-full min-h-0 min-w-0">
+      <div className="min-h-0 min-w-0">
         <AppointmentSummaryCard
           icon={CircleCheckBig}
           label="Completed Appointments"
@@ -34,7 +34,7 @@ export default function AppointmentSummaryCards() {
         />
       </div>
 
-      <div className="h-full min-h-0 min-w-0">
+      <div className="min-h-0 min-w-0 sm:col-span-2 min-[900px]:col-span-1">
         <HealthTrendCard />
       </div>
     </div>

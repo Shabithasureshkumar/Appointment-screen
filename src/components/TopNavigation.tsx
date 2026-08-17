@@ -36,6 +36,9 @@ export default function TopNavigation() {
         })}
 
         <button
+          onClick={() => setMobileOpen((v) => !v)}
+          aria-expanded={mobileOpen}
+          aria-haspopup="true"
           className="flex items-center gap-2 rounded-full bg-brand-gradient-btn px-3 py-2.5 font-sora text-sm font-semibold text-white shadow-card lg:hidden"
         >
           <CalendarDays className="h-4 w-4 shrink-0" />
@@ -43,6 +46,7 @@ export default function TopNavigation() {
         </button>
         <button
           onClick={() => setMobileOpen((v) => !v)}
+          aria-expanded={mobileOpen}
           className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-gray-500 hover:bg-gray-50 lg:hidden"
           aria-label="Toggle navigation menu"
         >

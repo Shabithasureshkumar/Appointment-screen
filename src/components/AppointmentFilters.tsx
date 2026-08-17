@@ -1,4 +1,5 @@
 import { CalendarCheck, UserX, Ban } from 'lucide-react'
+import Button from './ui/Button'
 import type { AppointmentStatus } from '../types/appointment'
 
 interface AppointmentFiltersProps {
@@ -18,16 +19,16 @@ export default function AppointmentFilters({ active, onChange }: AppointmentFilt
       {FILTERS.map(({ key, label, icon: Icon }) => {
         const isActive = active === key
         return (
-          <button
+          <Button
             key={key}
+            variant={isActive ? 'primary' : 'ghost'}
+            size="sm"
+            icon={<Icon className="h-4 w-4" strokeWidth={2} />}
             onClick={() => onChange(key)}
-            className={`flex items-center gap-2 rounded-full px-4 py-2.5 font-sora text-sm font-semibold transition-colors ${
-              isActive ? 'bg-brand-gradient-btn text-white shadow-card' : 'text-gray-500 hover:bg-gray-50'
-            }`}
+            aria-pressed={isActive}
           >
-            <Icon className="h-4 w-4" strokeWidth={2} />
             {label}
-          </button>
+          </Button>
         )
       })}
     </div>

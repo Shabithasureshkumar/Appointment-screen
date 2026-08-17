@@ -4,13 +4,13 @@ export default function HealthTrendCard() {
       className="
         flex
         h-full
-        min-h-0
+        min-h-[174px]
         w-full
         flex-col
         justify-between
         rounded-[20px]
         border
-        border-[#ECE9FF]
+        border-brand-mist
         bg-white
         p-5
         shadow-[0_8px_25px_rgba(70,50,120,0.06)]

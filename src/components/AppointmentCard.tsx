@@ -8,84 +8,73 @@ import AppointmentActionButtons from './AppointmentActionButtons'
 
 interface AppointmentCardProps {
   appointment: Appointment
-  onClose: (id: string) => void
+  onCancel: (id: string) => void
+  onReschedule: (appointment: Appointment) => void
+  onJoinNow: (appointment: Appointment) => void
+  onBookFollowUp: () => void
 }
 
 export default function AppointmentCard({
   appointment,
-  onClose,
+  onCancel,
+  onReschedule,
+  onJoinNow,
+  onBookFollowUp,
 }: AppointmentCardProps) {
+  const hasCountdown = appointment.startsInSeconds !== undefined
+  const hasSymptoms = Boolean(appointment.symptoms && appointment.symptoms.length > 0)
+  const hasSummary = Boolean(appointment.aiSummary)
+  const hasOrganIcon = Boolean(appointment.organIcon)
+
   return (
-    <article
-      className="
-        appointment-card
-        w-full
-        rounded-[24px]
-        border border-[#E7DDFF]
-        bg-white
-        px-4
-        py-4
-        sm:px-5
-        sm:py-5
-        lg:px-5
-        lg:py-4
-        xl:px-5
-        xl:py-4
-      "
-    >
-      <div
-        className="
-          grid
-          w-full
-          items-center
-
-          gap-y-4
-          gap-x-4
-
-          lg:grid-cols-[minmax(300px,1.7fr)_145px_minmax(175px,1fr)_minmax(240px,1.35fr)_110px_140px]
-
-          xl:grid-cols-[minmax(310px,1.65fr)_150px_minmax(185px,1fr)_minmax(250px,1.4fr)_120px_145px]
-
-          2xl:grid-cols-[minmax(330px,1.7fr)_155px_minmax(195px,1fr)_minmax(270px,1.45fr)_125px_150px]
-
-          xl:gap-x-5
-          2xl:gap-x-6
-        "
-      >
-        {/* Doctor Information */}
-        <div className="min-w-0">
+    <article className="appointment-card w-full rounded-[24px] border border-[#E7DDFF] bg-white px-4 py-4 sm:px-5 sm:py-5 lg:px-5 lg:py-4">
+      {/*
+        Sizing lives here, once. Below `md` everything stacks (grid-cols-1).
+        At `md` (tablet) the doctor info / AI summary / actions each take a
+        full row while countdown + symptoms share a row, instead of one long
+        vertical stack. At `lg` the layout becomes the flex row from the
+        desktop design, wrapping until `1440px` where it matches the Figma
+        frame exactly. Child components stay width-agnostic (`w-full`) and
+        simply fill whatever slot they're given here — no independent width
+        assumptions inside them.
+      */}
+      <div className="grid grid-cols-1 items-start gap-4 md:grid-cols-2 md:gap-5 lg:flex lg:flex-row lg:flex-wrap lg:items-center lg:gap-5 min-[1440px]:flex-nowrap">
+        <div className="min-w-0 md:col-span-2 lg:basis-[300px] lg:grow-0 lg:shrink-0">
           <DoctorInfo appointment={appointment} />
         </div>
 
-        {/* Countdown */}
-        <div className="flex min-w-0 justify-center">
-          <CountdownTimer
-            initialSeconds={appointment.startsInSeconds}
-            dateTimeLabel={appointment.dateTimeLabel}
-          />
-        </div>
+        {hasCountdown && (
+          <div className="flex min-w-0 justify-center md:justify-start lg:basis-[140px] lg:grow-0 lg:shrink-0">
+            <CountdownTimer initialSeconds={appointment.startsInSeconds as number} dateTimeLabel={appointment.dateTimeLabel} />
+          </div>
+        )}
 
-        {/* Reported Symptoms */}
-        <div className="min-w-0">
-          <ReportedSymptoms symptoms={appointment.symptoms} />
-        </div>
+        {hasSymptoms && (
+          <div className="min-w-0 lg:basis-[200px] lg:grow-0 lg:shrink-0">
+            <ReportedSymptoms symptoms={appointment.symptoms as string[]} />
+          </div>
+        )}
 
-        {/* AI Pre Visit Summary */}
-        <div className="min-w-0">
-          <PreVisitSummary onView={() => {}} />
-        </div>
+        {hasSummary && (
+          <div className="min-w-0 md:col-span-2 lg:flex-1 lg:basis-[260px] lg:grow lg:shrink-0">
+            <PreVisitSummary summary={appointment.aiSummary!} />
+          </div>
+        )}
 
-        {/* Organ / Medical Illustration */}
-        <div className="flex min-h-[110px] w-full items-center justify-center">
-          <OrganIllustration icon={appointment.organIcon} />
-        </div>
+        {/* Decorative — hidden below `lg` so it never eats mobile/tablet vertical space. */}
+        {hasOrganIcon && (
+          <div className="hidden lg:flex lg:basis-[120px] lg:grow-0 lg:shrink-0 lg:items-center lg:justify-center">
+            <OrganIllustration icon={appointment.organIcon!} />
+          </div>
+        )}
 
-        {/* Actions */}
-        <div className="flex min-w-0 justify-end">
+        <div className="flex min-w-0 md:col-span-2 lg:ml-auto lg:basis-[140px] lg:grow-0 lg:shrink-0 lg:justify-end">
           <AppointmentActionButtons
-            onJoinNow={() => {}}
-            onReschedule={() => {}}
-            onClose={() => onClose(appointment.id)}
+            status={appointment.status}
+            onJoinNow={() => onJoinNow(appointment)}
+            onReschedule={() => onReschedule(appointment)}
+            onCancel={() => onCancel(appointment.id)}
+            onBookFollowUp={onBookFollowUp}
           />
         </div>
       </div>

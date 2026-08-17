@@ -3,31 +3,35 @@ import AppointmentCard from './AppointmentCard'
 
 interface AppointmentTimelineProps {
   appointments: Appointment[]
-  onCloseAppointment: (id: string) => void
+  onCancel: (id: string) => void
+  onReschedule: (appointment: Appointment) => void
+  onJoinNow: (appointment: Appointment) => void
+  onBookFollowUp: () => void
 }
 
 export default function AppointmentTimeline({
   appointments,
-  onCloseAppointment,
+  onCancel,
+  onReschedule,
+  onJoinNow,
+  onBookFollowUp,
 }: AppointmentTimelineProps) {
   let lastDate = ''
 
   return (
     <div className="flex w-full flex-col gap-6">
-      {appointments.map((appointment) => {
+      {appointments.map((appointment, index) => {
         const showDateBadge = appointment.date !== lastDate
         lastDate = appointment.date
+        const isLast = index === appointments.length - 1
 
         return (
-          <div
-            key={appointment.id}
-            className="flex w-full items-stretch gap-4 sm:gap-5 lg:gap-6"
-          >
+          <div key={appointment.id} className="flex w-full items-stretch gap-4 sm:gap-5 lg:gap-6">
             {/* Date */}
             <div className="relative flex w-[58px] shrink-0 flex-col items-center sm:w-[68px] lg:w-[72px]">
               {showDateBadge ? (
-                <div className="relative z-10 flex h-[62px] w-[58px] flex-col items-center justify-center rounded-[17px] border border-[#D9CBFF] bg-white shadow-soft sm:h-[66px] sm:w-[64px]">
-                  <span className="font-sora text-[9px] font-semibold uppercase tracking-wide text-[#744BFF]">
+                <div className="relative z-10 flex h-[62px] w-[58px] flex-col items-center justify-center rounded-[17px] border border-[#D9CBFF] bg-white shadow-soft sm:h-[66px] sm:w-[64px] lg:h-[70px] lg:w-[68px]">
+                  <span className="font-sora text-[9px] font-semibold uppercase tracking-wide text-brand-accent">
                     {appointment.day}
                   </span>
 
@@ -36,17 +40,20 @@ export default function AppointmentTimeline({
                   </span>
                 </div>
               ) : (
-                <div className="h-[66px] w-[64px]" />
+                <div className="h-[62px] w-[58px] sm:h-[66px] sm:w-[64px] lg:h-[70px] lg:w-[68px]" />
               )}
 
-              <div className="mt-2 w-px flex-1 border-l-2 border-dashed border-[#D8C8FF]" />
+              {!isLast && <div className="mt-2 w-px flex-1 border-l-2 border-dashed border-[#D8C8FF]" />}
             </div>
 
             {/* Appointment Card */}
             <div className="min-w-0 flex-1">
               <AppointmentCard
                 appointment={appointment}
-                onClose={onCloseAppointment}
+                onCancel={onCancel}
+                onReschedule={onReschedule}
+                onJoinNow={onJoinNow}
+                onBookFollowUp={onBookFollowUp}
               />
             </div>
           </div>

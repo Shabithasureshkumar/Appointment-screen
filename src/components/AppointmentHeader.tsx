@@ -6,7 +6,7 @@ export default function AppointmentHeader() {
       className="
         relative
         flex
-        min-h-[174px]
+        min-h-[150px]
         w-full
         items-center
         overflow-hidden
@@ -14,7 +14,9 @@ export default function AppointmentHeader() {
         bg-brand-gradient
         px-6
         py-6
+        sm:min-h-[160px]
         sm:px-8
+        lg:min-h-[174px]
         lg:px-9
       "
     >
@@ -59,13 +61,13 @@ export default function AppointmentHeader() {
       <div className="relative z-10 max-w-[390px]">
         <h1
           className="
-            whitespace-nowrap
             font-manrope
             text-[30px]
             font-extrabold
             leading-[1.05]
             tracking-[-0.5px]
             text-white
+            sm:whitespace-nowrap
             sm:text-[34px]
           "
         >

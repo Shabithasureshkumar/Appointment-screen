@@ -10,7 +10,7 @@ interface AppointmentSummaryCardProps {
 
 export default function AppointmentSummaryCard({ icon: Icon, label, value, suffix, progress }: AppointmentSummaryCardProps) {
   return (
-    <div className="flex min-w-[200px] flex-1 flex-col gap-3 rounded-2xl border border-gray-100 bg-white p-5 shadow-soft">
+    <div className="flex h-full min-h-[174px] w-full flex-col gap-3 rounded-2xl border border-gray-100 bg-white p-5 shadow-soft">
       <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-brand-400 to-brand-700">
         <Icon className="h-5 w-5 text-white" strokeWidth={2} />
       </div>

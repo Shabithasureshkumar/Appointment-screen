@@ -6,7 +6,7 @@ interface ReportedSymptomsProps {
 
 export default function ReportedSymptoms({ symptoms }: ReportedSymptomsProps) {
   return (
-    <div className="w-full shrink-0 rounded-xl border border-gray-100 bg-brand-50/60 p-4 lg:w-[200px] lg:flex-none">
+    <div className="w-full rounded-xl border border-gray-100 bg-brand-50/60 p-4">
       <div className="mb-2.5 flex items-center gap-1.5">
         <ClipboardList className="h-4 w-4 text-brand-700" strokeWidth={2} />
         <span className="font-manrope text-[13px] font-bold text-gray-800">Reported Symptoms</span>

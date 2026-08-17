@@ -17,6 +17,20 @@ export default {
           700: '#5C24FF',
           800: '#590FED',
           900: '#4F46E5',
+          // Semantic aliases for values that repeat across components (kept
+          // distinct from the numeric scale since they're not tint/shade
+          // steps of the same hue).
+          mist: '#ECE9FF',
+          accent: '#744BFF',
+        },
+        ink: {
+          900: '#25253A',
+          400: '#9292A5',
+        },
+        danger: {
+          50: '#FFF1F1',
+          200: '#FFB8B8',
+          500: '#EF4444',
         },
       },
       backgroundImage: {
