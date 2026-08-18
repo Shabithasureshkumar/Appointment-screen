@@ -159,10 +159,9 @@ export default function AppointmentCard({
               col-span-2
               min-w-0
               lg:order-none
-              lg:flex-1
-              lg:basis-[260px]
               lg:grow
               lg:shrink-0
+              lg:basis-[260px]
             "
           >
             <PreVisitSummary summary={appointment.aiSummary!} />
@@ -170,6 +169,13 @@ export default function AppointmentCard({
         )}
 
         {/* Actions */}
+        {/*
+          `lg:basis-[176px]`, not 140px: the actual rendered content here is a 128px button
+          column + up to 12px gap + a 34px close button = ~174px. With the old 140px basis,
+          `grow-0 shrink-0` locked this slot too narrow for its own children, and `justify-end`
+          bled the overflow leftward into Pre-visit Summary's space instead of clipping it —
+          the wrapper box itself measured fine, but the buttons rendered outside it.
+        */}
         <div
           className="
             order-6
@@ -178,7 +184,7 @@ export default function AppointmentCard({
             min-w-0
             lg:order-none
             lg:ml-auto
-            lg:basis-[140px]
+            lg:basis-[176px]
             lg:grow-0
             lg:shrink-0
             lg:justify-end
