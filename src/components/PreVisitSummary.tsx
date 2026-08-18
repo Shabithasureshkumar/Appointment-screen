@@ -10,7 +10,7 @@ export default function PreVisitSummary({ summary }: PreVisitSummaryProps) {
   const [expanded, setExpanded] = useState(false)
 
   return (
-    <div className="flex w-full items-start gap-3 rounded-xl border border-brand-100 bg-gradient-to-br from-brand-50 to-white p-4">
+    <div className="flex w-full items-start gap-[clamp(10px,1.4vw,12px)] rounded-xl border border-brand-100 bg-gradient-to-br from-brand-50 to-white p-[clamp(12px,1.8vw,16px)]">
       <Sparkles className="mt-0.5 h-4 w-4 shrink-0 text-brand-700" strokeWidth={2} />
       <div className="flex flex-1 flex-col gap-1.5">
         <p className="font-manrope text-sm font-bold text-brand-900">{summary.title}</p>

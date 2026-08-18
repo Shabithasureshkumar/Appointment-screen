@@ -6,16 +6,15 @@ export default function AppointmentHeader() {
       className="
         relative
         flex
-        min-h-[150px]
+        min-h-[172px]
         w-full
-        items-center
         overflow-hidden
         rounded-[26px]
         bg-brand-gradient
-        px-6
+        px-5
         py-6
-        sm:min-h-[160px]
-        sm:px-8
+        md:min-h-[172px]
+        md:px-8
         lg:min-h-[174px]
         lg:px-9
       "
@@ -23,6 +22,7 @@ export default function AppointmentHeader() {
       {/* Background circles */}
       <div
         className="
+          pointer-events-none
           absolute
           -right-12
           -top-20
@@ -35,6 +35,7 @@ export default function AppointmentHeader() {
 
       <div
         className="
+          pointer-events-none
           absolute
           -bottom-24
           right-20
@@ -47,9 +48,10 @@ export default function AppointmentHeader() {
 
       <div
         className="
+          pointer-events-none
           absolute
-          right-[-20px]
           bottom-[-55px]
+          right-[-20px]
           h-36
           w-36
           rounded-full
@@ -57,63 +59,31 @@ export default function AppointmentHeader() {
         "
       />
 
-      {/* Text */}
-      <div className="relative z-10 max-w-[390px]">
-        <h1
-          className="
-            font-manrope
-            text-[30px]
-            font-extrabold
-            leading-[1.05]
-            tracking-[-0.5px]
-            text-white
-            sm:whitespace-nowrap
-            sm:text-[34px]
-          "
-        >
-          My Appointments
-        </h1>
+      {/*
+        Discrete sizing, not clamp(): `clamp(min, Nvw, max)` only reaches its preferred value
+        once `N * viewport-width` clears `min` — with the coefficients this hero previously
+        used, that crossover landed near 900-1450px, so every size here sat pinned at its
+        smallest value across the entire mobile *and* tablet range instead of scaling toward
+        Figma's ~390px reference. Explicit breakpoints avoid that trap: base is sized for
+        Figma's mobile width, `md` steps toward tablet, `lg` is the exact original approved
+        desktop size.
+      */}
+      <div className="relative z-10 flex w-full min-w-0 items-center gap-4 md:gap-5 lg:gap-6">
+        {/* Text */}
+        <div className="min-w-0 flex-1 basis-0">
+          <h1 className="font-manrope text-[28px] font-extrabold leading-[1.08] tracking-[-0.5px] text-white md:text-[32px] lg:whitespace-nowrap lg:text-[34px]">
+            My Appointments
+          </h1>
 
-        <p
-          className="
-            mt-3
-            max-w-[340px]
-            font-sora
-            text-[13px]
-            leading-[1.65]
-            text-white/90
-            sm:text-[14px]
-          "
-        >
-          Manage your clinical schedule and AI-assisted health consultations.
-        </p>
-      </div>
+          <p className="mt-2 max-w-[300px] font-sora text-[13px] leading-[1.5] text-white/90 md:max-w-[340px] md:text-[14px] lg:max-w-[340px]">
+            Manage your clinical schedule and AI-assisted health consultations.
+          </p>
+        </div>
 
-      {/* Your saved photo.png */}
-      <div
-        className="
-          absolute
-          bottom-0
-          right-3
-          z-10
-          hidden
-          h-[145px]
-          w-[220px]
-          items-end
-          justify-end
-          lg:flex
-        "
-      >
-        <img
-          src={photo}
-          alt="Medical team"
-          className="
-            h-full
-            w-full
-            object-contain
-            object-right-bottom
-          "
-        />
+        {/* Medical team illustration */}
+        <div className="flex h-[104px] w-[128px] shrink-0 items-end justify-end md:h-[128px] md:w-[172px] lg:h-[145px] lg:w-[220px]">
+          <img src={photo} alt="Medical team" className="block h-full w-full object-contain object-right-bottom" />
+        </div>
       </div>
     </div>
   )

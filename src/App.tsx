@@ -13,18 +13,23 @@ import { useAppointments } from './hooks/useAppointments'
 import { formatDateTimeLabel } from './utils/scheduling'
 import type { Appointment, AppointmentStatus } from './types/appointment'
 
-const EMPTY_STATE_COPY: Record<AppointmentStatus, { title: string; subtitle: string }> = {
+const EMPTY_STATE_COPY: Record<
+  AppointmentStatus,
+  { title: string; subtitle: string }
+> = {
   upcoming: {
     title: 'No upcoming appointments',
     subtitle: 'Book a new appointment to see it show up here.',
   },
   past: {
     title: 'No past visits yet',
-    subtitle: 'Completed appointments will appear here once you’ve had a visit.',
+    subtitle:
+      'Completed appointments will appear here once you’ve had a visit.',
   },
   cancelled: {
     title: 'No cancelled appointments',
-    subtitle: 'Anything you cancel from the Upcoming tab will show up here.',
+    subtitle:
+      'Anything you cancel from the Upcoming tab will show up here.',
   },
 }
 
@@ -46,13 +51,18 @@ function App() {
 
   const [isBookOpen, setBookOpen] = useState(false)
   const [isSymptomCheckerOpen, setSymptomCheckerOpen] = useState(false)
-  const [rescheduleTarget, setRescheduleTarget] = useState<Appointment | null>(null)
+  const [rescheduleTarget, setRescheduleTarget] =
+    useState<Appointment | null>(null)
   const [joinTarget, setJoinTarget] = useState<Appointment | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
 
   const searchedAppointments = useMemo(() => {
     const query = searchQuery.trim().toLowerCase()
-    if (!query) return visibleAppointments
+
+    if (!query) {
+      return visibleAppointments
+    }
+
     return visibleAppointments.filter(
       (appointment) =>
         appointment.doctorName.toLowerCase().includes(query) ||
@@ -73,16 +83,42 @@ function App() {
   )
 
   const emptyState =
-    searchQuery.trim() && searchedAppointments.length === 0 ? NO_MATCH_COPY : EMPTY_STATE_COPY[activeFilter]
+    searchQuery.trim() && searchedAppointments.length === 0
+      ? NO_MATCH_COPY
+      : EMPTY_STATE_COPY[activeFilter]
 
   return (
     <main className="min-h-screen w-full overflow-x-hidden bg-[#F7F9FA]">
-      <div className="mx-auto flex w-full max-w-[1580px] flex-col gap-6 px-4 py-5 sm:px-6 lg:px-8 xl:px-10">
+      <div
+        className="
+          mx-auto
+          flex
+          w-full
+          max-w-[1580px]
+          flex-col
+          gap-[clamp(16px,2vw,24px)]
+          px-[clamp(12px,2vw,40px)]
+          py-[clamp(16px,2vw,20px)]
+        "
+      >
         {/* Top Navigation */}
-        <TopNavigation searchQuery={searchQuery} onSearchChange={setSearchQuery} notifications={notifications} />
+        <TopNavigation
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          notifications={notifications}
+        />
 
         {/* Hero + Summary Cards */}
-        <section className="grid w-full grid-cols-1 gap-5 lg:grid-cols-[0.95fr_1.55fr]">
+        <section
+          className="
+            grid
+            w-full
+            min-w-0
+            grid-cols-1
+            gap-[clamp(12px,1.5vw,20px)]
+            lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1.55fr)]
+          "
+        >
           <div className="min-w-0">
             <AppointmentHeader />
           </div>
@@ -93,8 +129,22 @@ function App() {
         </section>
 
         {/* Filters + Actions */}
-        <section className="flex w-full flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-          <AppointmentFilters active={activeFilter} onChange={setActiveFilter} />
+        <section
+          className="
+            flex
+            w-full
+            min-w-0
+            flex-col
+            gap-[clamp(12px,1.5vw,16px)]
+            lg:flex-row
+            lg:items-center
+            lg:justify-between
+          "
+        >
+          <AppointmentFilters
+            active={activeFilter}
+            onChange={setActiveFilter}
+          />
 
           <AppointmentActions
             onBookAppointment={() => setBookOpen(true)}
@@ -103,7 +153,7 @@ function App() {
         </section>
 
         {/* Appointment Timeline */}
-        <section className="w-full">
+        <section className="w-full min-w-0">
           {searchedAppointments.length > 0 ? (
             <AppointmentTimeline
               appointments={searchedAppointments}
@@ -113,17 +163,45 @@ function App() {
               onBookFollowUp={() => setBookOpen(true)}
             />
           ) : (
-            <div className="flex min-h-[300px] w-full flex-col items-center justify-center rounded-[24px] border border-brand-mist bg-white text-center shadow-[0_8px_30px_rgba(70,50,120,0.04)]">
-              <p className="font-manrope text-lg font-bold text-ink-900">{emptyState.title}</p>
-              <p className="mt-1 font-sora text-sm text-ink-400">{emptyState.subtitle}</p>
+            <div
+              className="
+                flex
+                min-h-[300px]
+                w-full
+                flex-col
+                items-center
+                justify-center
+                rounded-[24px]
+                border
+                border-brand-mist
+                bg-white
+                px-5
+                text-center
+                shadow-[0_8px_30px_rgba(70,50,120,0.04)]
+              "
+            >
+              <p className="font-manrope text-lg font-bold text-ink-900">
+                {emptyState.title}
+              </p>
+
+              <p className="mt-1 font-sora text-sm text-ink-400">
+                {emptyState.subtitle}
+              </p>
             </div>
           )}
         </section>
       </div>
 
-      <BookAppointmentModal isOpen={isBookOpen} onClose={() => setBookOpen(false)} onBook={bookAppointment} />
+      <BookAppointmentModal
+        isOpen={isBookOpen}
+        onClose={() => setBookOpen(false)}
+        onBook={bookAppointment}
+      />
 
-      <SymptomCheckerModal isOpen={isSymptomCheckerOpen} onClose={() => setSymptomCheckerOpen(false)} />
+      <SymptomCheckerModal
+        isOpen={isSymptomCheckerOpen}
+        onClose={() => setSymptomCheckerOpen(false)}
+      />
 
       <RescheduleModal
         isOpen={rescheduleTarget !== null}

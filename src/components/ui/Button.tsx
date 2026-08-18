@@ -8,6 +8,10 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: ButtonSize
   fullWidth?: boolean
   icon?: ReactNode
+  /** Allows label text to wrap instead of forcing a single line — for buttons placed in a
+   * narrow flexible slot (e.g. two side-by-side mobile action buttons) where a forced
+   * `whitespace-nowrap` minimum width would overflow the row. */
+  wrap?: boolean
 }
 
 // Each variant reproduces an exact color combination already used somewhere
@@ -24,9 +28,16 @@ const VARIANT_CLASSES: Record<ButtonVariant, string> = {
 }
 
 const SIZE_CLASSES: Record<ButtonSize, string> = {
-  sm: 'rounded-full px-4 py-2.5 text-sm gap-2',
+  // Filter tabs only (Upcoming / Past visit / Cancelled): three of these must fit in one
+  // row down to 320px. Discrete breakpoints, not clamp() — a `clamp(min, Nvw, max)` with too
+  // small a coefficient sits pinned at `min` across the whole mobile+tablet range instead of
+  // reaching a comfortable size by Figma's ~390px reference, which is what happened here
+  // before. Base is sized for 390px; `sm` restores the original desktop-approved values.
+  sm: 'rounded-full gap-1 px-2 py-2 text-xs min-[360px]:px-2.5 min-[360px]:text-[13px] sm:gap-2 sm:px-4 sm:py-2.5 sm:text-sm',
   md: 'h-[40px] rounded-full px-4 text-[13px] gap-2',
-  lg: 'rounded-full px-6 py-3 text-sm gap-2',
+  // Book Appointment / AI Symptom Checker + modal submit buttons: original desktop padding
+  // restored at `sm`+, tightened only below it.
+  lg: 'rounded-full gap-2 px-5 py-3 text-sm sm:px-6',
   icon: 'h-[34px] w-[34px] rounded-[10px] p-0',
 }
 
@@ -34,6 +45,7 @@ export default function Button({
   variant = 'primary',
   size = 'md',
   fullWidth = false,
+  wrap = false,
   icon,
   className = '',
   children,
@@ -43,7 +55,8 @@ export default function Button({
     <button
       type="button"
       className={[
-        'inline-flex shrink-0 items-center justify-center whitespace-nowrap font-sora font-semibold leading-none transition-all duration-200',
+        'inline-flex items-center justify-center font-sora font-semibold transition-all duration-200',
+        wrap ? 'shrink text-center leading-snug whitespace-normal' : 'shrink-0 leading-none whitespace-nowrap',
         VARIANT_CLASSES[variant],
         SIZE_CLASSES[size],
         fullWidth ? 'w-full' : '',

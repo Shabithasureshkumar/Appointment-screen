@@ -30,14 +30,23 @@ export default function TopNavigation({ searchQuery, onSearchChange, notificatio
   const [openPanel, setOpenPanel] = useState<Panel>(null)
   const navRef = useRef<HTMLElement>(null)
 
+  // Covers both the icon popovers (search/settings/notifications) and the mobile drawer —
+  // previously this only watched `openPanel`, so Escape/outside-click never closed the
+  // hamburger drawer.
   useEffect(() => {
-    if (!openPanel) return
+    if (!openPanel && !mobileOpen) return
 
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setOpenPanel(null)
+      if (event.key === 'Escape') {
+        setOpenPanel(null)
+        setMobileOpen(false)
+      }
     }
     const onPointerDown = (event: MouseEvent) => {
-      if (navRef.current && !navRef.current.contains(event.target as Node)) setOpenPanel(null)
+      if (navRef.current && !navRef.current.contains(event.target as Node)) {
+        setOpenPanel(null)
+        setMobileOpen(false)
+      }
     }
 
     document.addEventListener('keydown', onKeyDown)
@@ -46,7 +55,7 @@ export default function TopNavigation({ searchQuery, onSearchChange, notificatio
       document.removeEventListener('keydown', onKeyDown)
       document.removeEventListener('mousedown', onPointerDown)
     }
-  }, [openPanel])
+  }, [openPanel, mobileOpen])
 
   const togglePanel = (panel: Exclude<Panel, null>) => {
     setOpenPanel((current) => (current === panel ? null : panel))
@@ -81,45 +90,37 @@ export default function TopNavigation({ searchQuery, onSearchChange, notificatio
           )
         })}
 
+        {/* Figma mobile header shows a single hamburger control — the current-tab pill is a
+            desktop-only affordance, since the drawer itself already marks "Appointment" active. */}
         <button
           type="button"
           onClick={() => setMobileOpen((v) => !v)}
           aria-expanded={mobileOpen}
-          aria-haspopup="true"
-          className="flex items-center gap-2 rounded-full bg-brand-gradient-btn px-3 py-2.5 font-sora text-sm font-semibold text-white shadow-card lg:hidden"
+          aria-label={mobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gray-50 text-gray-700 hover:bg-gray-100 lg:hidden"
         >
-          <CalendarDays className="h-4 w-4 shrink-0" />
-          {active}
-        </button>
-        <button
-          type="button"
-          onClick={() => setMobileOpen((v) => !v)}
-          aria-expanded={mobileOpen}
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-gray-500 hover:bg-gray-50 lg:hidden"
-          aria-label="Toggle navigation menu"
-        >
-          {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          {mobileOpen ? <X className="h-[22px] w-[22px]" /> : <Menu className="h-[22px] w-[22px]" />}
         </button>
       </div>
 
       <div className="flex items-center gap-1 sm:gap-2 lg:gap-3">
-        {/* Search */}
-        <div className="relative hidden md:block">
+        {/* Search — visible at every width per the Figma mobile header (only Settings is desktop-only). */}
+        <div className="relative">
           <button
             type="button"
             onClick={() => togglePanel('search')}
             aria-expanded={openPanel === 'search'}
             aria-haspopup="true"
-            className={`flex h-10 w-10 items-center justify-center rounded-full transition-colors ${
+            className={`flex h-11 w-11 items-center justify-center rounded-full transition-colors lg:h-10 lg:w-10 ${
               openPanel === 'search' ? 'bg-brand-50 text-brand-700' : 'text-gray-500 hover:bg-gray-50'
             }`}
             aria-label="Search appointments"
           >
-            <Search className="h-5 w-5" />
+            <Search className="h-[22px] w-[22px] lg:h-5 lg:w-5" />
           </button>
 
           {openPanel === 'search' && (
-            <div className="absolute right-0 top-12 z-20 w-72 rounded-2xl border border-gray-100 bg-white p-3 shadow-card">
+            <div className="absolute right-0 top-12 z-20 w-[min(18rem,calc(100vw-2rem))] rounded-2xl border border-gray-100 bg-white p-3 shadow-card">
               <label className="flex flex-col gap-1.5">
                 <span className="font-sora text-xs font-semibold text-gray-500">Search by doctor or specialty</span>
                 <input
@@ -151,12 +152,12 @@ export default function TopNavigation({ searchQuery, onSearchChange, notificatio
             onClick={() => togglePanel('settings')}
             aria-expanded={openPanel === 'settings'}
             aria-haspopup="true"
-            className={`flex h-10 w-10 items-center justify-center rounded-full transition-colors ${
+            className={`flex h-11 w-11 items-center justify-center rounded-full transition-colors lg:h-10 lg:w-10 ${
               openPanel === 'settings' ? 'bg-brand-50 text-brand-700' : 'text-gray-500 hover:bg-gray-50'
             }`}
             aria-label="Settings"
           >
-            <Settings className="h-5 w-5" />
+            <Settings className="h-[22px] w-[22px] lg:h-5 lg:w-5" />
           </button>
 
           {openPanel === 'settings' && (
@@ -176,19 +177,19 @@ export default function TopNavigation({ searchQuery, onSearchChange, notificatio
             onClick={() => togglePanel('notifications')}
             aria-expanded={openPanel === 'notifications'}
             aria-haspopup="true"
-            className={`relative flex h-10 w-10 items-center justify-center rounded-full transition-colors ${
+            className={`relative flex h-11 w-11 items-center justify-center rounded-full transition-colors lg:h-10 lg:w-10 ${
               openPanel === 'notifications' ? 'bg-brand-50 text-brand-700' : 'text-gray-500 hover:bg-gray-50'
             }`}
             aria-label={`Notifications${notifications.length ? ` (${notifications.length} upcoming)` : ''}`}
           >
-            <Bell className="h-5 w-5" />
+            <Bell className="h-[22px] w-[22px] lg:h-5 lg:w-5" />
             {notifications.length > 0 && (
               <span className="absolute right-1.5 top-1.5 flex h-2 w-2 rounded-full bg-brand-700" />
             )}
           </button>
 
           {openPanel === 'notifications' && (
-            <div className="absolute right-0 top-12 z-20 w-72 rounded-2xl border border-gray-100 bg-white p-3 shadow-card">
+            <div className="absolute right-0 top-12 z-20 w-[min(18rem,calc(100vw-2rem))] rounded-2xl border border-gray-100 bg-white p-3 shadow-card">
               <p className="mb-2 px-1 font-manrope text-sm font-bold text-gray-900">Upcoming appointments</p>
               {notifications.length === 0 ? (
                 <p className="px-1 font-sora text-xs text-gray-500">You&apos;re all caught up — nothing upcoming.</p>
@@ -210,12 +211,14 @@ export default function TopNavigation({ searchQuery, onSearchChange, notificatio
         </div>
 
         <div className="flex items-center gap-2 border-l border-gray-100 pl-1 sm:pl-2 lg:pl-3">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-brand-400 to-brand-700 font-manrope text-xs font-bold text-white">
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-brand-400 to-brand-700 font-manrope text-sm font-bold text-white lg:h-10 lg:w-10 lg:text-xs">
             DB
           </div>
-          <div className="hidden leading-tight lg:block">
-            <p className="font-manrope text-sm font-bold text-gray-900">David Brock</p>
-            <p className="font-sora text-xs text-gray-400">General Physician</p>
+          {/* Figma mobile header shows the name/role next to the avatar (not just on desktop) —
+              gated to ~380px+ so it doesn't crowd the 320-375px header alongside the other icons. */}
+          <div className="hidden leading-tight min-[380px]:block">
+            <p className="font-manrope text-[15px] font-bold text-gray-900 lg:text-sm">David Brock</p>
+            <p className="font-sora text-[13px] text-gray-400 lg:text-xs">General Physician</p>
           </div>
         </div>
       </div>

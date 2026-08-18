@@ -23,56 +23,167 @@ export default function AppointmentCard({
   onBookFollowUp,
 }: AppointmentCardProps) {
   const hasCountdown = appointment.startsInSeconds !== undefined
-  const hasSymptoms = Boolean(appointment.symptoms && appointment.symptoms.length > 0)
+  const hasSymptoms = Boolean(
+    appointment.symptoms && appointment.symptoms.length > 0,
+  )
   const hasSummary = Boolean(appointment.aiSummary)
   const hasOrganIcon = Boolean(appointment.organIcon)
 
   return (
-    <article className="appointment-card w-full rounded-[24px] border border-[#E7DDFF] bg-white px-4 py-4 sm:px-5 sm:py-5 lg:px-5 lg:py-4">
-      {/*
-        Sizing lives here, once. Below `md` everything stacks (grid-cols-1).
-        At `md` (tablet) the doctor info / AI summary / actions each take a
-        full row while countdown + symptoms share a row, instead of one long
-        vertical stack. At `lg` the layout becomes the flex row from the
-        desktop design, wrapping until `1440px` where it matches the Figma
-        frame exactly. Child components stay width-agnostic (`w-full`) and
-        simply fill whatever slot they're given here — no independent width
-        assumptions inside them.
-      */}
-      <div className="grid grid-cols-1 items-start gap-4 md:grid-cols-2 md:gap-5 lg:flex lg:flex-row lg:flex-wrap lg:items-center lg:gap-5 min-[1440px]:flex-nowrap">
-        <div className="min-w-0 md:col-span-2 lg:basis-[300px] lg:grow-0 lg:shrink-0">
+    <article
+      className="
+        appointment-card
+        w-full
+        min-w-0
+        rounded-[24px]
+        border
+        border-[#E7DDFF]
+        bg-white
+        px-4
+        py-4
+        sm:px-5
+        sm:py-5
+        lg:px-5
+        lg:py-4
+      "
+    >
+      <div
+        className="
+          grid
+          grid-cols-2
+          items-start
+          gap-[clamp(10px,1.5vw,20px)]
+          md:items-center
+          lg:flex
+          lg:flex-row
+          lg:flex-wrap
+          lg:items-center
+          lg:gap-5
+          min-[1440px]:flex-nowrap
+        "
+      >
+        {/* Doctor information */}
+        <div
+          className="
+            order-1
+            col-span-2
+            min-w-0
+            lg:order-none
+            lg:basis-[300px]
+            lg:grow-0
+            lg:shrink-0
+          "
+        >
           <DoctorInfo appointment={appointment} />
         </div>
 
-        {hasCountdown && (
-          <div className="flex min-w-0 justify-center md:justify-start lg:basis-[140px] lg:grow-0 lg:shrink-0">
-            <CountdownTimer
-              initialSeconds={appointment.startsInSeconds as number}
-              dateTimeLabel={formatDateTimeLabel(appointment.schedule)}
-            />
+        {/* Countdown + Organ illustration */}
+        {(hasCountdown || hasOrganIcon) && (
+          <div
+            className="
+              order-2
+              col-span-2
+              flex
+              min-w-0
+              items-center
+              justify-between
+              gap-2
+              md:contents
+            "
+          >
+            {hasCountdown && (
+              <div
+                className="
+                  order-2
+                  min-w-0
+                  md:justify-start
+                  lg:order-none
+                  lg:basis-[140px]
+                  lg:grow-0
+                  lg:shrink-0
+                "
+              >
+                <CountdownTimer
+                  initialSeconds={appointment.startsInSeconds as number}
+                  dateTimeLabel={formatDateTimeLabel(appointment.schedule)}
+                />
+              </div>
+            )}
+
+            {hasOrganIcon && (
+              <div
+                className="
+                  order-3
+                  flex
+                  shrink-0
+                  items-center
+                  justify-end
+                  md:hidden
+                  lg:order-none
+                  lg:flex
+                  lg:basis-[120px]
+                  lg:grow-0
+                  lg:shrink-0
+                  lg:justify-center
+                "
+              >
+                <OrganIllustration icon={appointment.organIcon!} />
+              </div>
+            )}
           </div>
         )}
 
+        {/* Reported symptoms */}
         {hasSymptoms && (
-          <div className="min-w-0 lg:basis-[200px] lg:grow-0 lg:shrink-0">
+          <div
+            className="
+              order-4
+              col-span-2
+              min-w-0
+              md:col-span-1
+              lg:order-none
+              lg:basis-[200px]
+              lg:grow-0
+              lg:shrink-0
+            "
+          >
             <ReportedSymptoms symptoms={appointment.symptoms as string[]} />
           </div>
         )}
 
+        {/* Pre-visit summary */}
         {hasSummary && (
-          <div className="min-w-0 md:col-span-2 lg:flex-1 lg:basis-[260px] lg:grow lg:shrink-0">
+          <div
+            className="
+              order-5
+              col-span-2
+              min-w-0
+              lg:order-none
+              lg:flex-1
+              lg:basis-[260px]
+              lg:grow
+              lg:shrink-0
+            "
+          >
             <PreVisitSummary summary={appointment.aiSummary!} />
           </div>
         )}
 
-        {/* Decorative — hidden below `lg` so it never eats mobile/tablet vertical space. */}
-        {hasOrganIcon && (
-          <div className="hidden lg:flex lg:basis-[120px] lg:grow-0 lg:shrink-0 lg:items-center lg:justify-center">
-            <OrganIllustration icon={appointment.organIcon!} />
-          </div>
-        )}
-
-        <div className="flex min-w-0 md:col-span-2 lg:ml-auto lg:basis-[140px] lg:grow-0 lg:shrink-0 lg:justify-end">
+        {/* Actions */}
+        <div
+          className="
+            order-6
+            col-span-2
+            flex
+            min-w-0
+            lg:order-none
+            lg:ml-auto
+            lg:basis-[140px]
+            lg:grow-0
+            lg:shrink-0
+            lg:justify-end
+          "
+        >
           <AppointmentActionButtons
             status={appointment.status}
             onJoinNow={() => onJoinNow(appointment)}

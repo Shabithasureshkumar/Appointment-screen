@@ -8,22 +8,24 @@ interface AppointmentActionsProps {
 
 export default function AppointmentActions({ onBookAppointment, onSymptomChecker }: AppointmentActionsProps) {
   return (
-    <div className="flex w-full items-center gap-3 sm:w-auto">
+    <div className="flex w-full items-stretch gap-3 sm:w-auto sm:items-center">
       <Button
         variant="primary"
         size="lg"
-        icon={<CalendarPlus className="h-4 w-4" />}
+        wrap
+        icon={<CalendarPlus className="h-4 w-4 shrink-0" />}
         onClick={onBookAppointment}
-        className="flex-1 sm:flex-none"
+        className="min-w-0 flex-1 sm:flex-none"
       >
         Book Appointment
       </Button>
       <Button
         variant="secondary"
         size="lg"
-        icon={<Sparkles className="h-4 w-4" />}
+        wrap
+        icon={<Sparkles className="h-4 w-4 shrink-0" />}
         onClick={onSymptomChecker}
-        className="flex-1 sm:flex-none"
+        className="min-w-0 flex-1 sm:flex-none"
       >
         AI Symptom Checker
       </Button>

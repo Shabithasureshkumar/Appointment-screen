@@ -17,7 +17,7 @@ export default function HealthTrendCard() {
       "
     >
       <div>
-        <h3 className="font-sora text-[13px] font-medium text-[#454558]">
+        <h3 className="font-sora text-sm font-medium text-[#454558]">
           Health Trend
         </h3>
 
@@ -25,7 +25,7 @@ export default function HealthTrendCard() {
           <span
             className="
               font-manrope
-              text-[24px]
+              text-[28px]
               font-extrabold
               leading-none
               text-[#6335F5]
@@ -38,7 +38,7 @@ export default function HealthTrendCard() {
             className="
               mb-[1px]
               font-sora
-              text-[11px]
+              text-[12px]
               text-[#9997A8]
             "
           >
@@ -47,13 +47,13 @@ export default function HealthTrendCard() {
         </div>
       </div>
 
-      <div className="flex items-end justify-end gap-[3px]">
-        <span className="h-[8px] w-[6px] rounded-t-[3px] bg-[#DCCEFF]" />
-        <span className="h-[12px] w-[6px] rounded-t-[3px] bg-[#D1BFFF]" />
-        <span className="h-[17px] w-[6px] rounded-t-[3px] bg-[#C3ACFF]" />
-        <span className="h-[23px] w-[6px] rounded-t-[3px] bg-[#AD8CFF]" />
-        <span className="h-[29px] w-[6px] rounded-t-[3px] bg-[#956BFF]" />
-        <span className="h-[35px] w-[6px] rounded-t-[3px] bg-[#7441F5]" />
+      <div className="flex items-end justify-end gap-1">
+        <span className="h-[12px] w-[7px] rounded-t-[3px] bg-[#DCCEFF]" />
+        <span className="h-[17px] w-[7px] rounded-t-[3px] bg-[#D1BFFF]" />
+        <span className="h-[24px] w-[7px] rounded-t-[3px] bg-[#C3ACFF]" />
+        <span className="h-[32px] w-[7px] rounded-t-[3px] bg-[#AD8CFF]" />
+        <span className="h-[40px] w-[7px] rounded-t-[3px] bg-[#956BFF]" />
+        <span className="h-[48px] w-[7px] rounded-t-[3px] bg-[#7441F5]" />
       </div>
     </div>
   )

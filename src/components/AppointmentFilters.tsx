@@ -15,7 +15,9 @@ const FILTERS: { key: AppointmentStatus; label: string; icon: typeof CalendarChe
 
 export default function AppointmentFilters({ active, onChange }: AppointmentFiltersProps) {
   return (
-    <div className="flex w-full flex-wrap items-center gap-2 rounded-full border border-gray-100 bg-white p-1.5 shadow-soft sm:w-auto">
+    // `flex-nowrap` + `flex-1` per tab: all three stay on one row (matching Figma) at every
+    // width down to 320px instead of wrapping into a ragged second line.
+    <div className="flex w-full flex-nowrap items-center gap-1 rounded-full border border-gray-100 bg-white p-1.5 shadow-soft sm:w-auto sm:gap-2">
       {FILTERS.map(({ key, label, icon: Icon }) => {
         const isActive = active === key
         return (
@@ -23,9 +25,11 @@ export default function AppointmentFilters({ active, onChange }: AppointmentFilt
             key={key}
             variant={isActive ? 'primary' : 'ghost'}
             size="sm"
-            icon={<Icon className="h-4 w-4" strokeWidth={2} />}
+            wrap
+            icon={<Icon className="h-3.5 w-3.5 shrink-0 sm:h-4 sm:w-4" strokeWidth={2} />}
             onClick={() => onChange(key)}
             aria-pressed={isActive}
+            className="min-w-0 flex-1 sm:flex-none"
           >
             {label}
           </Button>

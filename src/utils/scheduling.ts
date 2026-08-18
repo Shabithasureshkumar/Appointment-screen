@@ -35,6 +35,17 @@ export function formatDateTimeLabel(schedule: AppointmentSchedule): string {
 }
 
 /**
+ * "Weekday, DD Month YYYY" with no time — the plain heading the Figma mobile layout places
+ * above each appointment card in place of the side date-badge/timeline rail used at `sm`+.
+ * Derived from the same `schedule` object as `formatDateTimeLabel`, so it can't drift from
+ * the timeline badge or the detail label.
+ */
+export function formatDateHeading(schedule: AppointmentSchedule): string {
+  const day = schedule.day.charAt(0) + schedule.day.slice(1).toLowerCase()
+  return `${day}, ${schedule.date} ${schedule.monthYear}`
+}
+
+/**
  * Derives the timeline day/date badge, detail label inputs, and live
  * countdown from a `datetime-local` input value. A `datetime-local` value has
  * no timezone offset, so `new Date(value)` is parsed as local time per spec —
