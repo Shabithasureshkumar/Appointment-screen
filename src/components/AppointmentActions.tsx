@@ -8,7 +8,7 @@ interface AppointmentActionsProps {
 
 export default function AppointmentActions({ onBookAppointment, onSymptomChecker }: AppointmentActionsProps) {
   return (
-    <div className="flex w-full items-stretch gap-3 sm:w-auto sm:items-center">
+    <div className="flex w-full items-stretch gap-[clamp(8px,2.5vw,12px)] sm:w-auto sm:items-center">
       <Button
         variant="primary"
         size="lg"
