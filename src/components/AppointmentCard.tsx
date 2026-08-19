@@ -152,6 +152,13 @@ export default function AppointmentCard({
         )}
 
         {/* Pre-visit summary */}
+        {/*
+          `lg:shrink` (not `shrink-0`): between 1440-1489px, `min-[1440px]:flex-nowrap` forces
+          all six children onto one line, but the card is still ~56px narrower than the row's
+          fixed basis total. Every other child is `shrink-0`, so Summary is the only slot that
+          can absorb that shortfall — without this, the overflow instead pushed the Cancel
+          button out past the card's own right border.
+        */}
         {hasSummary && (
           <div
             className="
@@ -160,7 +167,7 @@ export default function AppointmentCard({
               min-w-0
               lg:order-none
               lg:grow
-              lg:shrink-0
+              lg:shrink
               lg:basis-[260px]
             "
           >
