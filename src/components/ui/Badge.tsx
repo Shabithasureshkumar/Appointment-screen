@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-export type BadgeVariant = 'brand' | 'neutral' | 'success' | 'danger'
+export type BadgeVariant = 'brand' | 'neutral' | 'success' | 'danger' | 'warning'
 
 interface BadgeProps {
   variant?: BadgeVariant
@@ -14,6 +14,7 @@ const VARIANT_CLASSES: Record<BadgeVariant, string> = {
   neutral: 'border border-gray-200 bg-white text-gray-500',
   success: 'border border-emerald-100 bg-emerald-50 text-emerald-600',
   danger: 'border border-danger-200 bg-danger-50 text-danger-500',
+  warning: 'border border-amber-100 bg-amber-50 text-amber-600',
 }
 
 export default function Badge({ variant = 'neutral', icon, children, className = '' }: BadgeProps) {

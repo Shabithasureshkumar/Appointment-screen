@@ -6,6 +6,16 @@ export default {
       fontFamily: {
         sora: ['Sora', 'sans-serif'],
         manrope: ['Manrope', 'sans-serif'],
+        inter: ['Inter', 'sans-serif'],
+      },
+      keyframes: {
+        'list-in': {
+          from: { opacity: '0', transform: 'translateY(6px)' },
+          to: { opacity: '1', transform: 'translateY(0)' },
+        },
+      },
+      animation: {
+        'list-in': 'list-in 280ms ease-out both',
       },
       colors: {
         brand: {

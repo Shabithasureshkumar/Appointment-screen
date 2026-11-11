@@ -5,6 +5,7 @@ import CountdownTimer from './CountdownTimer'
 import ReportedSymptoms from './ReportedSymptoms'
 import PreVisitSummary from './PreVisitSummary'
 import OrganIllustration from './OrganIllustration'
+import AppointmentVisitDetails from './AppointmentVisitDetails'
 import AppointmentActionButtons from './AppointmentActionButtons'
 
 interface AppointmentCardProps {
@@ -148,6 +149,23 @@ export default function AppointmentCard({
             "
           >
             <ReportedSymptoms symptoms={appointment.symptoms as string[]} />
+          </div>
+        )}
+
+        {/* Fills the middle when there's no symptoms/summary, so the card has no empty gap. */}
+        {!hasSymptoms && !hasSummary && (
+          <div
+            className="
+              order-4
+              col-span-2
+              min-w-0
+              lg:order-none
+              lg:grow
+              lg:shrink
+              lg:basis-[260px]
+            "
+          >
+            <AppointmentVisitDetails appointment={appointment} />
           </div>
         )}
 

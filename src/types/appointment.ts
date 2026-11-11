@@ -4,7 +4,7 @@ export type AppointmentBadge = 'Follow Up' | 'Consultation'
 
 export type OrganIcon = 'heart' | 'orthopedic' | 'digestive' | 'lung'
 
-export type AppointmentStatus = 'upcoming' | 'past' | 'cancelled'
+export type AppointmentStatus = 'upcoming' | 'past' | 'cancelled' | 'pending' | 'completed'
 
 export interface AiSummary {
   title: string

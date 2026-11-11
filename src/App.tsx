@@ -31,6 +31,24 @@ const EMPTY_STATE_COPY: Record<
     subtitle:
       'Anything you cancel from the Upcoming tab will show up here.',
   },
+  pending: {
+    title: 'No pending appointments',
+    subtitle: 'Requests waiting for clinic confirmation will appear here.',
+  },
+  completed: {
+    title: 'No completed appointments',
+    subtitle: 'Consultations you have finished will appear here.',
+  },
+}
+
+const APPOINTMENT_LIST_ID = 'appointment-list'
+
+const EMPTY_COUNTS: Record<AppointmentStatus, number> = {
+  upcoming: 0,
+  past: 0,
+  cancelled: 0,
+  pending: 0,
+  completed: 0,
 }
 
 const NO_MATCH_COPY = {
@@ -69,6 +87,14 @@ function App() {
         appointment.specialization.toLowerCase().includes(query),
     )
   }, [visibleAppointments, searchQuery])
+
+  const statusCounts = useMemo(() => {
+    const counts = { ...EMPTY_COUNTS }
+    for (const appointment of appointments) {
+      counts[appointment.status] += 1
+    }
+    return counts
+  }, [appointments])
 
   const notifications = useMemo(
     () =>
@@ -136,14 +162,16 @@ function App() {
             min-w-0
             flex-col
             gap-[clamp(12px,1.5vw,16px)]
-            lg:flex-row
-            lg:items-center
-            lg:justify-between
+            min-[1280px]:flex-row
+            min-[1280px]:items-center
+            min-[1280px]:justify-between
           "
         >
           <AppointmentFilters
             active={activeFilter}
             onChange={setActiveFilter}
+            counts={statusCounts}
+            panelId={APPOINTMENT_LIST_ID}
           />
 
           <AppointmentActions
@@ -153,7 +181,14 @@ function App() {
         </section>
 
         {/* Appointment Timeline */}
-        <section className="w-full min-w-0">
+        {/* `key` re-mounts the panel on every tab change so the fade-in replays. */}
+        <section
+          key={activeFilter}
+          id={APPOINTMENT_LIST_ID}
+          role="tabpanel"
+          aria-labelledby={`appointment-tab-${activeFilter}`}
+          className="w-full min-w-0 animate-list-in motion-reduce:animate-none"
+        >
           {searchedAppointments.length > 0 ? (
             <AppointmentTimeline
               appointments={searchedAppointments}

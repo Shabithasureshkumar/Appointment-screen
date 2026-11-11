@@ -29,10 +29,28 @@ export default function AppointmentActionButtons({
     )
   }
 
-  if (status === 'past') {
+  // Awaiting clinic confirmation: the only sensible action is withdrawing the request,
+  // which reuses the existing cancel handler (it moves the appointment to "Cancelled").
+  if (status === 'pending') {
     return (
       <div className="flex w-full flex-col items-start gap-2 sm:w-auto sm:items-end">
-        <Badge variant="neutral">Completed</Badge>
+        <Badge variant="warning">Pending</Badge>
+        <Button variant="outline" size="md" onClick={onCancel} className="w-full sm:w-[128px]">
+          Cancel Request
+        </Button>
+      </div>
+    )
+  }
+
+  if (status === 'past' || status === 'completed') {
+    return (
+      <div className="flex w-full flex-col items-start gap-2 sm:w-auto sm:items-end">
+        {/* "Past visit" and "Completed" are separate tabs, so the badge must say which one. */}
+        {status === 'completed' ? (
+          <Badge variant="success">Completed</Badge>
+        ) : (
+          <Badge variant="neutral">Past visit</Badge>
+        )}
         <Button
           variant="outline"
           size="md"
